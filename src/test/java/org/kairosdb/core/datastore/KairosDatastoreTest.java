@@ -351,6 +351,9 @@ public class KairosDatastoreTest
 		}
 
 		@Override
+		public Iterable<String> getTagValuesByTagName(String tagName) { return null; }
+
+		@Override
 		public void queryDatabase(DatastoreMetricQuery query, QueryCallback queryCallback)
 				throws DatastoreException
 		{

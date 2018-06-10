@@ -251,7 +251,7 @@ public abstract class DatastoreTestHelper
 	}
 
 	//names and values not being stored
-	/*@Test
+	@Test
 	public void test_getTagNames() throws DatastoreException
 	{
 		List<String> metrics = listFromIterable(s_datastore.getTagNames());
@@ -259,19 +259,30 @@ public abstract class DatastoreTestHelper
 		assertThat(metrics, hasItem("host"));
 		assertThat(metrics, hasItem("client"));
 		assertThat(metrics, hasItem("month"));
-	}*/
+	}
 
-	/*@Test
+	@Test
 	public void test_getTagValues() throws DatastoreException
 	{
 		List<String> metrics = listFromIterable(s_datastore.getTagValues());
 
+
+		// nach name="client" suchen, dann sollte "foo" und "bar" gefunden werden. Alle anderen nicht.
 		assertThat(metrics, hasItem("A"));
 		assertThat(metrics, hasItem("B"));
 		assertThat(metrics, hasItem("foo"));
 		assertThat(metrics, hasItem("bar"));
 		assertThat(metrics, hasItem("April"));
-	}*/
+	}
+
+	@Test
+	public void test_getTagValuesByTagName() throws DatastoreException
+	{
+		List<String> metrics = listFromIterable(s_datastore.getTagValuesByTagName("client"));
+
+		assertThat(metrics, hasItem("foo"));
+		assertThat(metrics, hasItem("bar"));
+	}
 
 	@Test
 	public void test_queryDatabase_stringData() throws DatastoreException

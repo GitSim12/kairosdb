@@ -757,6 +757,11 @@ public class DataPointsParserTest
 		}
 
 		@Override
+		public Iterable<String> getTagValuesByTagName(String tagName) throws DatastoreException {
+			return null;
+		}
+
+		@Override
 		public void queryDatabase(DatastoreMetricQuery query, QueryCallback queryCallback) throws DatastoreException
 		{
 

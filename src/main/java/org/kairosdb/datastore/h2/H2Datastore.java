@@ -34,25 +34,7 @@ import org.kairosdb.core.datastore.TagSet;
 import org.kairosdb.core.datastore.TagSetImpl;
 import org.kairosdb.core.exception.DatastoreException;
 import org.kairosdb.datastore.cassandra.DataPointsRowKey;
-import org.kairosdb.datastore.h2.orm.DSEnvelope;
-import org.kairosdb.datastore.h2.orm.DataPoint;
-import org.kairosdb.datastore.h2.orm.DeleteMetricsQuery;
-import org.kairosdb.datastore.h2.orm.GenOrmDataSource;
-import org.kairosdb.datastore.h2.orm.InsertDataPointQuery;
-import org.kairosdb.datastore.h2.orm.Metric;
-import org.kairosdb.datastore.h2.orm.MetricIdResults;
-import org.kairosdb.datastore.h2.orm.MetricIdsQuery;
-import org.kairosdb.datastore.h2.orm.MetricIdsWithTagsQuery;
-import org.kairosdb.datastore.h2.orm.MetricNamesPrefixQuery;
-import org.kairosdb.datastore.h2.orm.MetricNamesQuery;
-import org.kairosdb.datastore.h2.orm.MetricTag;
-import org.kairosdb.datastore.h2.orm.MetricTagValuesQuery;
-import org.kairosdb.datastore.h2.orm.ServiceIndex;
-import org.kairosdb.datastore.h2.orm.ServiceIndex_base;
-import org.kairosdb.datastore.h2.orm.ServiceModification;
-import org.kairosdb.datastore.h2.orm.Tag;
-import org.kairosdb.datastore.h2.orm.TagNamesQuery;
-import org.kairosdb.datastore.h2.orm.TagValuesQuery;
+import org.kairosdb.datastore.h2.orm.*;
 import org.kairosdb.eventbus.FilterEventBus;
 import org.kairosdb.eventbus.Publisher;
 import org.kairosdb.eventbus.Subscribe;
@@ -297,6 +279,19 @@ public class H2Datastore implements Datastore, ServiceKeyStore
 		results.close();
 
 		return (tagValues);
+	}
+
+	@Override
+	public Iterable<String> getTagValuesByTagName(String tagName)  {
+		TagValuesByTagNameQuery.ResultSet results = new TagValuesByTagNameQuery(tagName).runQuery();
+
+		List<String> tagValues = new ArrayList<>();
+		while (results.next())
+			tagValues.add(results.getRecord().getValue());
+
+		results.close();
+
+		return tagValues;
 	}
 
 	private GenOrmQueryResultSet<? extends MetricIdResults> getMetricIdsForQuery(DatastoreMetricQuery query)

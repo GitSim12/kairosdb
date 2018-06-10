@@ -176,6 +176,9 @@ public abstract class ResourceBase
         }
 
         @Override
+        public Iterable<String> getTagValuesByTagName(String tagName) { return Arrays.asList("foo", "bar"); }
+
+        @Override
         public void queryDatabase(DatastoreMetricQuery query, QueryCallback queryCallback) throws DatastoreException
         {
             if (m_toThrow != null)

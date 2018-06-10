@@ -295,6 +295,9 @@ public class RollUpJobTest
 		}
 
 		@Override
+		public Iterable<String> getTagValuesByTagName(String tagName) { throw new UnsupportedOperationException(); }
+
+		@Override
 		public void queryDatabase(DatastoreMetricQuery query, QueryCallback queryCallback) throws DatastoreException
 		{
 			for (ListDataPointGroup dataPointGroup : dataPointGroups)

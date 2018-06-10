@@ -329,6 +329,14 @@ public class MetricsResource implements KairosMetricReporter
 		return executeNameQuery(NameType.TAG_VALUES);
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	@Path("/tagvalues")
+	public Response getTagValues(@QueryParam("tagname") String tagName) throws InvalidServerTypeException
+	{
+		checkServerType(ServerType.QUERY, "/tagvalues", "GET");
+		return executeNameQuery(NameType.TAG_VALUES, tagName);
+	}
 
 	@OPTIONS
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -785,7 +793,7 @@ public class MetricsResource implements KairosMetricReporter
 		return executeNameQuery(type, null);
 	}
 
-	private Response executeNameQuery(NameType type, String prefix)
+	private Response executeNameQuery(NameType type, String filterParam)
 	{
 		try
 		{
@@ -793,10 +801,14 @@ public class MetricsResource implements KairosMetricReporter
 			switch (type)
 			{
 				case METRIC_NAMES:
-					values = datastore.getMetricNames(prefix);
+					values = datastore.getMetricNames(filterParam);
 					break;
 				case TAG_KEYS:
-					values = datastore.getTagNames();
+					if (null == filterParam) {
+						values = datastore.getTagNames();
+					} else {
+						values = datastore.getTagValuesByTagName(filterParam);
+					}
 					break;
 				case TAG_VALUES:
 					values = datastore.getTagValues();
