@@ -294,6 +294,12 @@ public class CassandraDatastore implements Datastore, ProcessorHandler, KairosMe
 	}
 
 	@Override
+	public Iterable<String> getTagValuesByTagName(String tagName) throws DatastoreException {
+		//todo implement method
+		return null;
+	}
+
+	@Override
 	public TagSet queryMetricTags(DatastoreMetricQuery query) throws DatastoreException
 	{
 		TagSetImpl tagSet = new TagSetImpl();

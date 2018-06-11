@@ -225,6 +225,11 @@ public class KairosDatastore
 		return (m_datastore.getTagValues());
 	}
 
+	public Iterable<String> getTagValuesByTagName(String tagName) throws DatastoreException
+	{
+		return (m_datastore.getTagValuesByTagName(tagName));
+	}
+
 	/**
 	 * Exports the data for a metric query without doing any aggregation or sorting
 	 *
